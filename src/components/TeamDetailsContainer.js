@@ -1,7 +1,10 @@
 import React from "react";
 import TeamDetails from "./TeamDetails";
+import CreatePlayerFormContainer from "./CreatPlayerFormContainer"
 import { connect } from "react-redux";
+import { Link } from "react-router-dom"
 import { loadTeam } from "../actions/teams";
+
 
 class TeamDetailsContainer extends React.Component {
   componentDidMount() {
@@ -9,15 +12,24 @@ class TeamDetailsContainer extends React.Component {
   }
   render() {
     console.log(this.props.team);
-    return <TeamDetails team={this.props.team} />;
-  }
-}
-
-const mapStateToProps = state => ({
-  team: state.team
-});
-
-export default connect(
-  mapStateToProps,
-  { loadTeam }
-)(TeamDetailsContainer);
+    return <div>
+    <TeamDetails team={this.props.team} />
+    {this.props.loggedIn ? (
+      <CreatePlayerFormContainer />
+      ) : (
+        <Link to="/login">Please log in to create teams</Link>
+        )}
+        </div>
+      }
+    }
+    
+    const mapStateToProps = state => ({
+      team: state.team,
+      loggedIn: state.auth !== null
+    });
+    
+    export default connect(
+      mapStateToProps,
+      { loadTeam }
+      )(TeamDetailsContainer);
+      
