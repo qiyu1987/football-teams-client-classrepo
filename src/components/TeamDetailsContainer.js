@@ -5,6 +5,7 @@ import DeleteTeamContainer from './DeleteTeamContainer'
 import { connect } from "react-redux";
 import { Link } from "react-router-dom"
 import { loadTeam } from "../actions/teams";
+import ChangeTeamNameFormContainer from "./ChangeTeamNameFormContainer";
 
 
 class TeamDetailsContainer extends React.Component {
@@ -21,6 +22,7 @@ class TeamDetailsContainer extends React.Component {
     {this.props.loggedIn ? (
       <div>
       <CreatePlayerFormContainer />
+      <ChangeTeamNameFormContainer />
       <DeleteTeamContainer redirect={this.redirect}/>
       </div>
       ) : (

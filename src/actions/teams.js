@@ -106,4 +106,22 @@ export const deleteTeam = (id) => (dispatch, getState) => {
   .catch(console.error);  
 }
 
+export const CHANGE_TEAM_NAME_SUCCESS = "CHANGE_TEAM_NAME_SUCCESS"
+export const teamNameChangeSuccess = () => {
+  
+}
+
+export const changeTeamName = team => (dispatch, getState) => {
+  const token = getState().auth;
+  
+  request
+  .post(`${baseUrl}/teams/${team.id}`)
+  .set("Authorization", `Bearer ${token}`)
+  .send(team)
+  .then(response => {
+    dispatch(playerCreateSuccess(response.body));        
+  })
+  .catch(console.error);
+};
+
 
