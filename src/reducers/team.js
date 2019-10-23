@@ -1,4 +1,4 @@
-import { FETCH_TEAM_SUCCESS, PLAYER_CREATE_SUCCESS } from "../actions/teams";
+import { FETCH_TEAM_SUCCESS, PLAYER_CREATE_SUCCESS, TEAM_DELETE_SUCCESS } from "../actions/teams";
 
 export default (state = {}, action = {}) => {
   switch (action.type) {
@@ -11,7 +11,7 @@ export default (state = {}, action = {}) => {
         players: state.players.concat(action.payload)
       }
 
-    case "DELETE_TEAM":
+    case TEAM_DELETE_SUCCESS:
       return {};
 
     default:

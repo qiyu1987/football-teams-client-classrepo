@@ -11,26 +11,26 @@ const teamsFetched = teams => ({
 
 export const loadTeams = () => (dispatch, getState) => {
   // Request is not made
-
+  
   // how to debug:
   // - console.log(getState()) to see what getState() returns
   // check the logic to see if it's correct
   // - console.log(getState().teams.length !== 0) // does this check pass?
-
+  
   // guard statement that checks if we already have teams
   if (getState().teams.length !== 0) return;
-
+  
   // - put a console.log below you guard statement to see if it passes
   // console.log('Guard statement passed??')
-
+  
   // Check if request is made succesfully
   request(`${baseUrl}/teams`) // url correct? -> make request with httpie first
-    .then(response => {
-      // console.log(response) -> have a look at the body of the request or status code
-      // dispatch an EVENTS_FETCHED action that contains the events
-      dispatch(teamsFetched(response.body)); // check redux devtools if action got dispatched
-    })
-    .catch(console.error); // if you don't console response, check the console for errors
+  .then(response => {
+    // console.log(response) -> have a look at the body of the request or status code
+    // dispatch an EVENTS_FETCHED action that contains the events
+    dispatch(teamsFetched(response.body)); // check redux devtools if action got dispatched
+  })
+  .catch(console.error); // if you don't console response, check the console for errors
 };
 
 export const TEAM_CREATE_SUCCESS = "TEAM_CREATE_SUCCESS";
@@ -42,15 +42,15 @@ const teamCreateSuccess = team => ({
 
 export const createTeam = data => (dispatch, getState) => {
   const token = getState().auth;
-
+  
   request
-    .post(`${baseUrl}/teams`)
-    .set("Authorization", `Bearer ${token}`)
-    .send(data)
-    .then(response => {
-      dispatch(teamCreateSuccess(response.body));
-    })
-    .catch(console.error);
+  .post(`${baseUrl}/teams`)
+  .set("Authorization", `Bearer ${token}`)
+  .send(data)
+  .then(response => {
+    dispatch(teamCreateSuccess(response.body));
+  })
+  .catch(console.error);
 };
 
 export const FETCH_TEAM_SUCCESS = "FETCH_TEAM_SUCCESS";
@@ -77,15 +77,33 @@ const playerCreateSuccess = player => ({
 
 export const createPlayer = data => (dispatch, getState) => {
   const token = getState().auth;
-
+  
   request
-    .post(`${baseUrl}/players`)
-    .set("Authorization", `Bearer ${token}`)
-    .send(data)
-    .then(response => {
-      dispatch(playerCreateSuccess(response.body));        
-    })
-    .catch(console.error);
+  .post(`${baseUrl}/players`)
+  .set("Authorization", `Bearer ${token}`)
+  .send(data)
+  .then(response => {
+    dispatch(playerCreateSuccess(response.body));        
+  })
+  .catch(console.error);
 };
+
+export const TEAM_DELETE_SUCCESS = 'TEAM_DELETE_SUCCESS'
+const teamDeleteSuccess = teamId => ({
+  type: TEAM_DELETE_SUCCESS,
+  payload: teamId
+});
+
+export const deleteTeam = (id) => (dispatch, getState) => {
+  const token = getState().auth;
+  
+  request
+  .delete(`${baseUrl}/teams/${id}`)
+  .set("Authorization", `Bearer ${token}`)
+  .then(response => {
+    dispatch(teamDeleteSuccess(response.body));        
+  })
+  .catch(console.error);  
+}
 
 
