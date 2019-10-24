@@ -1,14 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
-import {changeTeamName} from "../actions/teams"
+import { changeTeamName } from "../actions/teams"
 import TeamForm from "./TeamForm"
 class ChangeTeamNameFormContainer extends React.Component {
     state = {
-        name: ""
+        name: "",
+        id: this.props.teamId
     };
     onChange = event => {
         this.setState({
-            [event.target.name]: event.target.value
+            [event.target.name]: event.target.value,
+            id: this.props.teamId
         });
     };
     
@@ -27,5 +29,8 @@ class ChangeTeamNameFormContainer extends React.Component {
         />
     }
 }
+const mapStateToProps = state => ({
+    teamId: state.team.id
+});
 
-export default connect(null,changeTeamName)(ChangeTeamNameFormContainer)
+export default connect(mapStateToProps,{ changeTeamName })(ChangeTeamNameFormContainer)

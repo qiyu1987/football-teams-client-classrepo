@@ -61,9 +61,7 @@ const fetchTeamSuccess = team => ({
 });
 
 export const loadTeam = id => (dispatch, getState) => {
-  console.log("CAN WE GET THE STATE??", getState());
   request(`${baseUrl}/teams/${id}`).then(response => {
-    console.log(response);
     dispatch(fetchTeamSuccess(response.body));
   });
 };
@@ -107,19 +105,22 @@ export const deleteTeam = (id) => (dispatch, getState) => {
 }
 
 export const CHANGE_TEAM_NAME_SUCCESS = "CHANGE_TEAM_NAME_SUCCESS"
-export const teamNameChangeSuccess = () => {
-  
-}
+export const teamNameChangeSuccess = (team) => ({
+  type: CHANGE_TEAM_NAME_SUCCESS,
+  payload:team
+})
 
 export const changeTeamName = team => (dispatch, getState) => {
+  console.log('what is getState',getState)
   const token = getState().auth;
+  console.log('team',team)
   
   request
-  .post(`${baseUrl}/teams/${team.id}`)
+  .put(`${baseUrl}/teams/${team.id}`)
   .set("Authorization", `Bearer ${token}`)
   .send(team)
   .then(response => {
-    dispatch(playerCreateSuccess(response.body));        
+    dispatch(teamNameChangeSuccess(response.body));        
   })
   .catch(console.error);
 };
